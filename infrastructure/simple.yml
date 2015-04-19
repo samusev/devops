@@ -1,0 +1,43 @@
+---
+- hosts: app
+  remote_user: root
+  vars:
+    http_port: 80
+    max_clients: 200
+    project_repo: https://github.com/niquola/hellodevops.git
+    project_dir: /var/www
+    project_root: "{{ project_dir }}/site"
+    branch: master
+    system_packages:
+      - nginx
+      - git
+      - curl
+  tasks:
+  - name: Install required system packages.
+    apt: pkg={{ item }} state=installed update-cache=yes
+    with_items: "{{ system_packages }}"
+
+  - name: ensure nginx is running
+    service: name=nginx state=started enabled=yes
+
+  - name: prepare dir
+    file: path={{ project_dir }} mode=0777 state=directory
+
+  - name: pull app
+    git: repo={{ project_repo }} dest={{ project_root }} version={{ branch }}
+    notify:
+      - restart nginx
+
+  - name: site mode
+    file: path={{ project_dir }} mode=0777 state=directory recurse=yes
+
+  - name: write the nginx config file
+    template: src=templates/site.cfg dest=/etc/nginx/sites-enabled/default
+    notify:
+      - restart nginx
+
+  - name: test deploy
+    shell: curl localhost:80
+  handlers:
+    - name: restart nginx
+      service: name=nginx state=restarted
