@@ -3,7 +3,7 @@ hello = require('./app.js')
 
 describe('app', function(){
   it('test',function(){
-    expect(hello()).toBe('Hello devops')
+    expect(hello()).toBe('Hello devops ups')
   })
 })
 
