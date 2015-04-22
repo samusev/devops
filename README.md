@@ -1,6 +1,6 @@
 ## Hello devops
 
-[![Build Status](https://travis-ci.org/niquola/hellodevops.svg)](https://travis-ci.org/niquola/hellodevops)
+[![Build Status](https://travis-ci.org/samusev/devops.svg?branch=master)](https://travis-ci.org/samusev/devops.svg?branch=master)
 
 
 install nvm
