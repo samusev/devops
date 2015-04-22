@@ -1,5 +1,5 @@
 function hello(){
-  return 'Hello devops';
+  return 'Hello devops ups';
 }
 
 if (module){
